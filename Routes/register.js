@@ -30,6 +30,8 @@ registerRouter.post('/', async (req, res) => {
                     // Save the new user to the database
                     await newuser.save();
 
+                    // need to add verification
+
                     res.status(201).send({ msg: 'User registered successfully', code:1 });
                 }
             }

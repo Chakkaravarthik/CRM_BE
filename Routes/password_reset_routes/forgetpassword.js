@@ -20,7 +20,7 @@ forgetpasswordRouter.post('/', async (req,res)=>{
                 ...mailOptions,
                 to: userdata.email,
                 subject: `Password Reset Link `,
-                text: `link to reset your password ${process.env.FE_URL}/reset-password?token=${token}`
+                text: `link to reset your password ${process.env.FE_URL}/resetpassword?token=${token}`
             });
             res.status(200).send({msg:'password reset link sent ',code:1})
         }else{

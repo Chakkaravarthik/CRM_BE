@@ -21,7 +21,7 @@ server.use(express.json());
 server.use(cors());
 
 // connecting db 
-mongooseConnect();
+await mongooseConnect();
 
 //router 
 server.use('/home', HomeRouter); // home router

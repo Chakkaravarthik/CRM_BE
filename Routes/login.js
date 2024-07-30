@@ -11,7 +11,7 @@ loginRouter.post('/', async(req, res)=>{
     //check user exist 
     const userobj = await usermodel.findOne({email:logindata.email});
     if(userobj){
-        console.log(`user ${userobj} crpt data ${userobj.password}`)
+        
         bcrypt.compare(logindata.password , userobj.password, async (err, result )=>{
             if(err){
                 res.status(404).send({msg:'something went wrong'})
