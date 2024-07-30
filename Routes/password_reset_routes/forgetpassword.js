@@ -1,6 +1,6 @@
 import express from 'express'
 import jwt from 'jsonwebtoken';
-import usermodel from '../../Db_Utils/model.js';
+import {usermodel} from '../../Db_Utils/model.js';
 import { mailOptions, transport } from '../../Mail_utils/mailutils.js';
 
 const forgetpasswordRouter = express.Router();

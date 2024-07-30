@@ -1,7 +1,7 @@
 
 import bcrypt from 'bcrypt';
 import express from 'express';
-import usermodel from '../Db_Utils/model.js';
+import {usermodel} from '../Db_Utils/model.js';
 
 const loginRouter = express.Router();
 

@@ -1,7 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
-import usermodel from '../../Db_Utils/model.js';
+import {usermodel} from '../../Db_Utils/model.js';
 
 const resetpasswordrouter = express.Router();
 

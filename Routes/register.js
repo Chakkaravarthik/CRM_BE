@@ -1,6 +1,6 @@
 import express from 'express'
 import bcrypt from 'bcrypt'
-import usermodel from '../Db_Utils/model.js';
+import {usermodel} from '../Db_Utils/model.js';
 
 // register rouuter
 const registerRouter = express.Router();
