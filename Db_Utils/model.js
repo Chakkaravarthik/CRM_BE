@@ -26,64 +26,64 @@ const usermodel = new mongoose.model('user', userschema , 'users');
 // schema amd model for customers 
 
 const customerSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    phone: String,
+    name: { type: "String", required: true },
+    email: { type: "String", required: true, unique: true },
+    phone: "String",
     address: {
-      street: String,
-      city: String,
-      state: String,
-      postal_code: String,
-      country: String
+      street: "String",
+      city: "String",
+      state: "String",
+      postal_code: "String",
+      country: "String"
     },
     textile_preferences: {
-      fabrics: [String],
-      colors: [String],
-      designs: [String]
+      fabrics: ["String"],
+      colors: ["String"],
+      designs: ["String"]
     },
     purchase_history: [
       {
-        purchase_id: String,
-        date: Date,
+        purchase_id: "String",
+        date: "Date",
         items: [
           {
-            item_id: String,
-            name: String,
-            quantity: Number,
-            price: Number
+            item_id: "String",
+            name: "String",
+            quantity: "Number",
+            price: "Number"
           }
         ],
-        total_amount: Number,
-        payment_method: String
+        total_amount: "Number",
+        payment_method: "String"
       }
     ],
     contact_preferences: {
-      email: Boolean,
-      sms: Boolean,
-      mail: Boolean
+      email: "Boolean",
+      sms: "Boolean",
+      mail: "Boolean"
     },
     communications: [
       {
-        type: { type: String, enum: ['email', 'meeting'] },
-        date: Date,
-        description: String
+        type: { type: "String", enum: ['email', 'meeting'] },
+        date: "Date",
+        description: "String"
       }
     ],
     feedbacks: [
       {
-        date: Date,
-        feedback: String
+        date: "Date",
+        feedback: "String"
       }
     ],
     offers: [
       {
-        offer_id: String,
-        description: String,
-        expiration_date: Date
+        offer_id: "String",
+        description: "String",
+        expiration_date: "Date"
       }
     ]
   });
   
-  const Customer = new mongoose.model('Customer', customerSchema, 'Customers');
+  const CustomerModel = new mongoose.model('Customer', customerSchema, 'Customers');
 
-export{ usermodel, Customer}
+export{ usermodel, CustomerModel}
