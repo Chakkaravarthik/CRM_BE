@@ -27,4 +27,30 @@ CustomerRouter.get('/', async (req,res)=>{
     }
 })
 
+
+CustomerRouter.post('/', async (req,res)=>{
+    const customerdata = req.body;
+    try{
+        if(customerdata){
+            const customerobj = CustomerModel.find({email: customerdata.email})
+            if(!customerobj){
+                const newcustomer = new CustomerModel({
+                    ...customerdata,
+                    id: Date.now().toString()
+                })
+    
+                await newcustomer.save() //validtae and save
+                res.status(200).send({msg:'Customer Data added', code:1})
+            }else{
+                res.status(400).send({msg:'Customer email already added'})
+            }
+            
+        }else{
+            res.status(400).send({msg:'customer data missing', code :0})
+        }
+    }catch(e){
+        console.log(e.message)
+    }
+})
+
 export default CustomerRouter;
