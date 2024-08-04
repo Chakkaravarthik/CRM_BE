@@ -32,17 +32,20 @@ CustomerRouter.post('/', async (req,res)=>{
     const customerdata = req.body;
     try{
         if(customerdata){
-            const customerobj = CustomerModel.find({email: customerdata.email})
+            console.log(customerdata)
+            const customerobj = await CustomerModel.findOne({email: customerdata.email})
+            
             if(!customerobj){
                 const newcustomer = new CustomerModel({
                     ...customerdata,
-                    id: Date.now().toString()
+                    id:Date.now().toString(),
                 })
     
-                await newcustomer.save() //validtae and save
-                res.status(200).send({msg:'Customer Data added', code:1})
+                const newcus = await newcustomer.save() //validtae and save
+                res.status(200).send({msg:'Customer Data added', code:1, newcus})
             }else{
                 res.status(400).send({msg:'Customer email already added'})
+                console.log(customerobj)
             }
             
         }else{
@@ -50,6 +53,24 @@ CustomerRouter.post('/', async (req,res)=>{
         }
     }catch(e){
         console.log(e.message)
+    }
+})
+
+CustomerRouter.get('/customerId', async (req,res)=>{
+    const {customerId}= req.params
+    try{
+        if(customerId){
+            const customerobject = CustomerModel.find({id:customerId})
+            if(customerobject){
+                res.status(200).send(customerobject);
+            }else{
+                res.status(400).send({msg:'custoemr not available'})
+            }
+        }else{
+            res.status(400).send({msg:'customer id not received'})
+        }
+    }catch(e){
+        console.log(e.message);
     }
 })
 

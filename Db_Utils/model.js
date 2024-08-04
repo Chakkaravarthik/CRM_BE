@@ -27,6 +27,7 @@ const usermodel = new mongoose.model('user', userschema , 'users');
 
 const customerSchema = new mongoose.Schema({
     name: { type: "String", required: true },
+    id: { type: "String", required: true },
     email: { type: "String", required: true, unique: true },
     phone: "String",
     address: {
