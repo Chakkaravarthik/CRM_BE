@@ -8,6 +8,8 @@ import forgetpasswordRouter from './Routes/password_reset_routes/forgetpassword.
 import verifypassword from './Routes/password_reset_routes/verifypassword.js';
 import resetpasswordrouter from './Routes/password_reset_routes/resetpassword.js';
 import CustomerRouter from './Routes/customers/customer.js';
+import ItemRouter from './Routes/items/items.js';
+import purchaseRouter from './Routes/purchase/purchase.js';
 
 
 // creating a server
@@ -32,6 +34,8 @@ server.use('/forgetpassword', forgetpasswordRouter); // forget password initiati
 server.use('/verifypassword', verifypassword);//verify jwt token and user
 server.use('/resetpassword', resetpasswordrouter)//reset password
 server.use('/customer-list', CustomerRouter)//reset password
+server.use('/itemlist', ItemRouter)//item router
+server.use('/purchase', purchaseRouter)//purchase router
 
 
 

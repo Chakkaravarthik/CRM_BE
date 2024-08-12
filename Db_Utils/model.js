@@ -46,14 +46,12 @@ const customerSchema = new mongoose.Schema({
       {
         purchase_id: "String",
         date: "Date",
-        items: [
-          {
+        items: {
             item_id: "String",
             name: "String",
             quantity: "Number",
             price: "Number"
-          }
-        ],
+          },
         total_amount: "Number",
         payment_method: "String"
       }
@@ -87,4 +85,27 @@ const customerSchema = new mongoose.Schema({
   
   const CustomerModel = new mongoose.model('Customer', customerSchema, 'Customers');
 
-export{ usermodel, CustomerModel}
+
+  // item model
+  const itemschema = new mongoose.Schema({
+    id:{
+        type:"String",
+        required:true,
+    },
+    item_name:{
+        type:"String",
+        required:true,
+    },
+    description:{
+        type:"String",
+        required:true,
+    },
+    price:{
+      type:"Number",
+      required:true,
+  },
+})
+
+const itemmodel = new mongoose.model('item', itemschema, 'items');
+
+export{ usermodel, CustomerModel, itemmodel}
