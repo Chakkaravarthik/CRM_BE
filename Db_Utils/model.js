@@ -108,4 +108,22 @@ const customerSchema = new mongoose.Schema({
 
 const itemmodel = new mongoose.model('item', itemschema, 'items');
 
-export{ usermodel, CustomerModel, itemmodel}
+//purchase model
+
+const purchaseschema = new mongoose.Schema({
+  purchase_id: "String",
+  date: "Date",
+  items: {
+    item_id: "String",
+    name: "String",
+    quantity: "Number",
+    price: "Number"
+   },
+  total_amount: "Number",
+  payment_method: "String",
+  CustomerName: "string",
+})
+
+const purchaseModel = new mongoose.model('purchase', purchaseschema, 'purchases')
+
+export{ usermodel, CustomerModel, itemmodel, purchaseModel}
