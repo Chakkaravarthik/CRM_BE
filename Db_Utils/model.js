@@ -53,7 +53,8 @@ const customerSchema = new mongoose.Schema({
             price: "Number"
           },
         total_amount: "Number",
-        payment_method: "String"
+        payment_method: "String",
+        feedback:"string",
       }
     ],
     contact_preferences: {
@@ -122,6 +123,8 @@ const purchaseschema = new mongoose.Schema({
   total_amount: "Number",
   payment_method: "String",
   CustomerName: "string",
+  customerid:"string",
+  feedback:"string",
 })
 
 const purchaseModel = new mongoose.model('purchase', purchaseschema, 'purchases')

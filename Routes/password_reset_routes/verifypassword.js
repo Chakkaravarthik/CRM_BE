@@ -8,7 +8,7 @@ verifypassword.post('/', async (req,res)=>{
     const userdata = req.body;
     try{
         const token = userdata.token;
-        const data= await jwt.verify(token, process.env.JWT_SECRET);
+        const data = await jwt.verify(token, process.env.JWT_SECRET);
         if(token){
             if(data){
                 res.status(200).send({msg:'User verified Successfuly', code:1});

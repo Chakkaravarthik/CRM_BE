@@ -1,5 +1,7 @@
 import express from 'express'
 import { CustomerModel, purchaseModel } from '../../Db_Utils/model.js';
+import { mailOptions, transport } from '../../Mail_utils/mailutils.js';
+import jwt from 'jsonwebtoken';
 
 const purchaseRouter = express.Router();
 
@@ -37,9 +39,26 @@ purchaseRouter.post('/', async(req,res)=>{
                 payment_method:data.paymentType,
                 items:{...data.selectedItem,item_id:data.selectedItem.id,quantity:data.quantity},
                 CustomerName:customerobj.name,
+                customerid:customerobj.id,
             })
 
-            await purchase.save();
+           
+            const pres = await purchase.save();
+            console.log('purchase sign',pres)
+
+
+            //jwt token creation 
+            const token = jwt.sign(pres.toObject(), process.env.JWT_SECRET);
+
+             //feedback mail to customer 
+            await transport.sendMail({
+                ...mailOptions,
+                to:customerobj.email,
+                subject:`Feedback for Purchase `,
+                text : `link for feedback ${process.env.FE_URL}/purchasefeedback?token=${token}`
+             })
+
+
 
             res.status(200).send({msg:'Purchase updated in customer ',code:1})
         }else{
