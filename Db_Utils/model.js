@@ -129,4 +129,27 @@ const purchaseschema = new mongoose.Schema({
 
 const purchaseModel = new mongoose.model('purchase', purchaseschema, 'purchases')
 
-export{ usermodel, CustomerModel, itemmodel, purchaseModel}
+
+const PurchaseFeedback = new mongoose.Schema({
+  id:"String",
+  purchase_id:"String",
+  customer_id:"String",
+  Customer_name:"String",
+  Feedback:"String",
+})
+
+const FeedbackModel = new mongoose.model('Feedback', PurchaseFeedback, 'Feedbacks')
+
+const Offserzoneeligiblecustomer = new mongoose.Schema({
+  id:"String",
+  OfferzoneName:"String",
+  customer_ids:[],
+})
+
+const OfferzoneEligibleModel = new mongoose.model('OfferZoneEligibleCustomer', Offserzoneeligiblecustomer, 'OfferZoneEligibleCustomers')
+
+
+
+
+
+export{ usermodel, CustomerModel, itemmodel, purchaseModel, FeedbackModel, OfferzoneEligibleModel}

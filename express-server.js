@@ -12,6 +12,8 @@ import ItemRouter from './Routes/items/items.js';
 import purchaseRouter from './Routes/purchase/purchase.js';
 import purchasefeedbackrouter from './Routes/purchase/purchasefeedback.js';
 import feedbackupdateRouter from './Routes/purchase/purchasefeedbackupdate.js';
+import offserzoneRouter from './Routes/offserzone/offserzone.js';
+import bulkemailRouter from './Routes/offserzone/bulkemail.js';
 
 
 // creating a server
@@ -40,6 +42,8 @@ server.use('/itemlist', ItemRouter)//item router
 server.use('/purchase', purchaseRouter)//purchase router
 server.use('/purchasefeedback', purchasefeedbackrouter)//purchase feedbackchecking
 server.use('/purchasefeedbackupdate', feedbackupdateRouter)//purchase feedbackchecking
+server.use('/offerzone', offserzoneRouter)//purchase feedbackchecking
+server.use('/bulkemail', bulkemailRouter)//purchase feedbackchecking
 
 
 

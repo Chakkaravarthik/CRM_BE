@@ -44,7 +44,7 @@ purchaseRouter.post('/', async(req,res)=>{
 
            
             const pres = await purchase.save();
-            console.log('purchase sign',pres)
+            
 
 
             //jwt token creation 
