@@ -24,7 +24,8 @@ registerRouter.post('/', async (req, res) => {
                     // Create a new user object
                     const newuser = new usermodel({
                         ...userdata,password:hash,
-                        id: Date.now().toString()
+                        id: Date.now().toString(),
+                        role:"customer",
                     });
 
                     // Save the new user to the database
