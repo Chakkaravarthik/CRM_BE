@@ -1,79 +1,97 @@
 import express from 'express';
 import { CustomerModel } from '../../Db_Utils/model.js';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 const CustomerRouter = express.Router();
 
-//custoemr get api
-
-CustomerRouter.get('/', async (req,res)=>{
+// Customer GET API
+CustomerRouter.get('/', async (req, res) => {
     try {
-      
         const customers = await CustomerModel.find({});
-        if(!customers){
-            res.status(200).send({msg:"customer not available"});
+        if (!customers || customers.length === 0) {
+            return res.status(200).send({ msg: "Customer not available" });
         }
-        res.status(200).send( customers );
-
+        res.status(200).send(customers);
     } catch (e) {
-        // Log the error message for debugging
         console.error('Error fetching customers:', e.message);
-        
-        // Send a 500 status code with an error message
         res.status(500).send({ msg: 'Something went wrong' });
     }
-})
+});
 
+// Customer POST API
+CustomerRouter.post('/', async (req, res) => {
+    const { name, email, phone, address, contact_preferences, textile_preferences, token } = req.body;
+    console.log('token', token);
 
-CustomerRouter.post('/', async (req,res)=>{
-    const {name,email,phone,address,contact_preferences,textile_preferences} = req.body;
-    const {token}=req.body;
-    console.log('token',token)
-    try{
-        if(name && email && phone){
-            const customerobj = await CustomerModel.findOne({email:email})
-            
-            if(!customerobj){
-                const newcustomer = new CustomerModel({
-                    name,email,phone,address,contact_preferences,textile_preferences,
-                    id:Date.now().toString(),
-                })
-    
-                const newcus = await newcustomer.save() //validtae and save
-                res.status(200).send({msg:'Customer Data added', code:1})
-            }else{
-                res.status(400).send({msg:'Customer email already added'})
-                console.log(customerobj)
+    try {
+        if (name && email && phone) {
+            const customerObj = await CustomerModel.findOne({ email });
+
+            if (!customerObj) {
+                const newCustomer = new CustomerModel({ name, email, phone, address, contact_preferences, textile_preferences });
+                const newCus = await newCustomer.save(); // Validate and save
+                return res.status(200).send({ msg: 'Customer Data added', code: 1 });
+            } else {
+                return res.status(400).send({ msg: 'Customer already exists' });
             }
-            
-        }else if(token){
-            const data = await jwt.verify(token, process.env.JWT_SECRET);
-            const singlecustomerobj = await CustomerModel.findOne({email:data.email})
-            res.status(200).send({msg:'Customer Data added', code:1, singlecustomerobj})
-        }else{
-            res.status(400).send({msg:'customer data missing', code :0})
-        }
-    }catch(e){
-        console.log(e.message)
-    }
-})
-
-CustomerRouter.get('/customerId', async (req,res)=>{
-    const {customerId}= req.params
-    try{
-        if(customerId){
-            const customerobject = CustomerModel.find({id:customerId})
-            if(customerobject){
-                res.status(200).send(customerobject);
-            }else{
-                res.status(400).send({msg:'custoemr not available'})
+        } else if (token) {
+            try {
+                const data = await jwt.verify(token, process.env.JWT_SECRET);
+                const singleCustomerObj = await CustomerModel.findOne({ email: data.email });
+                return res.status(200).send({ msg: 'Customer Data fetched', code: 1, singleCustomerObj });
+            } catch (e) {
+                return res.status(400).send({ msg: 'Invalid token', code: 0 });
             }
-        }else{
-            res.status(400).send({msg:'customer id not received'})
+        } else {
+            return res.status(400).send({ msg: 'Customer data missing', code: 0 });
         }
-    }catch(e){
+    } catch (e) {
         console.log(e.message);
+        res.status(500).send({ msg: 'Internal Server Error' });
     }
-})
+});
+
+// Get customer by ID API
+CustomerRouter.get('/:customerId', async (req, res) => {
+    const { customerId } = req.params;
+    try {
+        if (customerId) {
+            const customerObject = await CustomerModel.findOne({ id: customerId });
+            if (customerObject) {
+                return res.status(200).send(customerObject);
+            } else {
+                return res.status(400).send({ msg: 'Customer not available' });
+            }
+        } else {
+            return res.status(400).send({ msg: 'Customer ID not received' });
+        }
+    } catch (e) {
+        console.log(e.message);
+        res.status(500).send({ msg: 'Internal Server Error' });
+    }
+});
+
+// Update customer data API
+CustomerRouter.put('/', async (req, res) => {
+    try {
+        const { type, editedCustomer } = req.body;
+        if (type && editedCustomer) {
+            const customer = await CustomerModel.findByIdAndUpdate(editedCustomer._id, editedCustomer, {
+                new: true,
+                runValidators: true,
+            });
+            if (customer) {
+                return res.status(200).send({ msg: 'Customer Data updated', code: 1 ,customer});
+            } else {
+                return res.status(400).send({ msg: 'Customer not found' });
+            }
+        } else {
+            return res.status(400).send({ msg: 'Customer not updated' });
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({ msg: 'Internal Server Error' });
+    }
+});
 
 export default CustomerRouter;

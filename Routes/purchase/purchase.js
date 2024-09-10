@@ -55,7 +55,7 @@ purchaseRouter.post('/', async(req,res)=>{
                 ...mailOptions,
                 to:customerobj.email,
                 subject:`Feedback for Purchase `,
-                text : `link for feedback ${process.env.FE_URL}/purchasefeedback?token=${token}`
+                text : `link for feedback ${process.env.FE_URL}/purchasefeedbackcustomer?token=${token}`
              })
 
 
