@@ -28,7 +28,7 @@ CustomerRouter.post('/', async (req, res) => {
             const customerObj = await CustomerModel.findOne({ email });
 
             if (!customerObj) {
-                const newCustomer = new CustomerModel({ name, email, phone, address, contact_preferences, textile_preferences });
+                const newCustomer = new CustomerModel({ id:Date.now().toString(),name, email, phone, address, contact_preferences, textile_preferences });
                 const newCus = await newCustomer.save(); // Validate and save
                 return res.status(200).send({ msg: 'Customer Data added', code: 1 });
             } else {
@@ -46,7 +46,7 @@ CustomerRouter.post('/', async (req, res) => {
             return res.status(400).send({ msg: 'Customer data missing', code: 0 });
         }
     } catch (e) {
-        console.log(e.message);
+        console.log(e);
         res.status(500).send({ msg: 'Internal Server Error' });
     }
 });
