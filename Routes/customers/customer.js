@@ -1,5 +1,5 @@
 import express from 'express';
-import { CustomerModel } from '../../Db_Utils/model.js';
+import { CustomerModel, usermodel } from '../../Db_Utils/model.js';
 import jwt from 'jsonwebtoken';
 
 const CustomerRouter = express.Router();
@@ -37,8 +37,15 @@ CustomerRouter.post('/', async (req, res) => {
         } else if (token) {
             try {
                 const data = await jwt.verify(token, process.env.JWT_SECRET);
+                console.log(data)
                 const singleCustomerObj = await CustomerModel.findOne({ email: data.email });
-                return res.status(200).send({ msg: 'Customer Data fetched', code: 1, singleCustomerObj });
+                const singleuserobj = await usermodel.findOne({email: data.email})
+                if(singleCustomerObj){
+                    return res.status(200).send({ msg: 'Customer Data fetched', code: 1, singleCustomerObj });
+                }
+                else if(singleuserobj){
+                    return res.status(200).send({ msg: 'User Data fetched', code: 2, singleuserobj });
+                }
             } catch (e) {
                 return res.status(400).send({ msg: 'Invalid token', code: 0 });
             }
